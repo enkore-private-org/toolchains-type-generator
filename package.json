@@ -1,0 +1,22 @@
+{
+  "name": "@enkore-private/toolchains-type-generator",
+  "version": "0.0.0",
+  "author": "Anio Software <info@anio.software>",
+  "description": "Toolchain type package generator.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/enkore-private-org/toolchains-type-generator.git"
+  },
+  "type": "module",
+  "devDependencies": {
+    "@anio-js-foundation/run-promises-in-parallel": "^1.0.0",
+    "@aniojs/node-fs": "^0.5.3",
+    "@enkore-target/js-node": "^0.0.11",
+    "@enkore/core": "^0.6.7",
+    "enkore": "^0.0.26"
+  },
+  "dependencies": {
+    "@enkore-private/target-js-rollup": "^0.0.4"
+  }
+}
