@@ -90,7 +90,7 @@ export async function main() {
 
 		const shouldSkipRelease = !(await checkIfNeedsUpdate(context))
 
-		if (shouldSkipRelease) {
+		if (shouldSkipRelease && constants.forceNewRelease !== true) {
 			process.stderr.write(`nothing to do, exiting early... \n`)
 
 			return
