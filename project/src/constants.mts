@@ -1,5 +1,5 @@
 export default {
-	startingRevisionNumber: 10,
+	startingRevisionNumber: 13,
 	toolchains: [
 		"@enkore/target-js-toolchain"
 	]
