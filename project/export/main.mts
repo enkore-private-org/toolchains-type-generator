@@ -116,7 +116,7 @@ export async function main() {
 		await writeAtomicFileJSON(
 			path.join(context.workDir, "newPackage", "package.json"), {
 				name: "@enkore-types/toolchains",
-				version: `0.0.${newRevision}`,
+				version: `0.0.${newRevision + constants.newRevisionOffset}`,
 				type: "module",
 				exports: {
 					".": {
