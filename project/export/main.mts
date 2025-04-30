@@ -111,10 +111,12 @@ export async function main() {
 			`export const contents = ${JSON.stringify(newContents, null, 4)};\n`
 		)
 
+		const newRevision = context.latestPublishedRevision + 1
+
 		await writeAtomicFileJSON(
 			path.join(context.workDir, "newPackage", "package.json"), {
 				name: "@enkore-types/toolchains",
-				version: `0.0.${context.latestPublishedRevision + 1}`,
+				version: `0.0.${newRevision}`,
 				type: "module",
 				exports: {
 					".": {
