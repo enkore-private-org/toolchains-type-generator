@@ -11,6 +11,7 @@ function codeFriendlyIdentifier(id: string): string {
 export async function generateDeclarationBundle(context: Context) {
 	let dtsImportCode = ``, dtsCode = ``
 	const typeAliases: string[] = []
+	const toolchainTuples: string[] = []
 
 	for (const [toolchain, {versions}] of context.toolchains.entries()) {
 		const [_, packageName] = toolchain.split("/")
@@ -30,6 +31,10 @@ export async function generateDeclarationBundle(context: Context) {
 			dtsCode += `}\n`
 
 			typeAliases.push(`${id}_R${rev}`)
+
+			toolchainTuples.push(
+				`["${toolchain}", ${rev}]`
+			)
 		}
 	}
 
@@ -38,6 +43,8 @@ export async function generateDeclarationBundle(context: Context) {
 	dtsCode += `export type ToolchainByID<ID extends ToolchainIDs> = Extract<Toolchains, {\n`
 	dtsCode += `    toolchainID: ID\n`
 	dtsCode += `}>\n`
+
+	dtsCode += `export type ValidToolchainCombinations = ${toolchainTuples.join(" | ")};\n`
 
 	const entryCode = dtsImportCode + dtsCode
 
