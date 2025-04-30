@@ -1,5 +1,5 @@
 export default {
-	forceNewRelease: false,
+	forceNewRelease: true,
 	newRevisionOffset: 0,
 	startingRevisionNumber: 13,
 	toolchains: [
