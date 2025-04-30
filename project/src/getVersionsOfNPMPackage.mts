@@ -1,5 +1,5 @@
 import {spawn} from "./spawn.mts"
-let i = 0;
+
 export async function getVersionsOfNPMPackage(
 	packageName: string
 ): Promise<string[]> {

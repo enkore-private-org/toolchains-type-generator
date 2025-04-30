@@ -1,7 +1,10 @@
 export type Context = {
 	workDir: string
+	latestPublishedRevision: number
+	latestPublishedRevisionContents: Map<string, {
+		versions: string[]
+	}>
 	toolchains: Map<string, {
-		newestRevision: number
 		versions: string[]
 	}>
 }
