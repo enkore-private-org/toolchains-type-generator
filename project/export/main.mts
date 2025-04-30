@@ -88,7 +88,9 @@ export async function main() {
 
 		await downloadLatestPublishedPackage(context)
 
-		if (!(await checkIfNeedsUpdate(context))) {
+		const shouldSkipRelease = !(await checkIfNeedsUpdate(context))
+
+		if (shouldSkipRelease) {
 			process.stderr.write(`nothing to do, exiting early... \n`)
 
 			return
