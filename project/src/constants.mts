@@ -1,7 +1,7 @@
 export default {
 	forceNewRelease: false,
 	newRevisionOffset: 0,
-	startingRevisionNumber: 13,
+	startingRevisionNumber: 23,
 	toolchains: [
 		"@enkore/target-js-toolchain"
 	]
