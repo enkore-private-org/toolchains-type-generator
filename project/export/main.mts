@@ -56,7 +56,9 @@ export async function main() {
 		), ["regularDir"]
 	)
 
-	const latestPublishedRevision = await getLatestPublishedPackageRevisionNumber()
+	const latestPublishedRevision = await getLatestPublishedPackageRevisionNumber(
+		secretsDir
+	)
 
 	const context: Context = {
 		secretsDir,
@@ -81,7 +83,7 @@ export async function main() {
 
 		for (const toolchain of constants.toolchains) {
 			const applicableVersions: string[] = []
-			const versions = await getVersionsOfNPMPackage(toolchain)
+			const versions = await getVersionsOfNPMPackage(context.secretsDir, toolchain)
 
 			for (const version of versions) {
 				const asRevision = calculateRevisionFromVersion(version)

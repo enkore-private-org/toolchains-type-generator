@@ -1,14 +1,17 @@
-import {spawn} from "./spawn.mts"
+import {executeNPMCommand} from "./executeNPMCommand.mts"
 
 export async function getVersionsOfNPMPackage(
+	secretsDir: string,
 	packageName: string
 ): Promise<string[]> {
-	const result = await spawn("npm", [
+	const result = await executeNPMCommand({
+		secretsDir
+	}, [
 		"view",
 		packageName,
 		"versions",
 		"--json"
-	], process.cwd())
+	])
 
 	if (result.code !== 0) {
 		throw new Error(
