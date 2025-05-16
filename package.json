@@ -12,9 +12,9 @@
   "devDependencies": {
     "@anio-js-foundation/run-promises-in-parallel": "^1.0.0",
     "@aniojs/node-fs": "^0.5.3",
-    "@enkore-target/js-node": "^0.0.24",
-    "@enkore/core": "^0.7.4",
-    "enkore": "^0.0.37"
+    "@asint/enkore": "^0.0.43",
+    "@asint/enkore__core": "^0.8.5",
+    "@asint/enkore-target__js-node": "^0.0.27"
   },
   "dependencies": {
     "@enkore-private/target-js-rollup": "^0.0.4"

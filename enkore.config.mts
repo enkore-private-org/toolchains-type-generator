@@ -1,7 +1,7 @@
 import {
 	createConfig,
 	createTargetJSNodeOptions
-} from "enkore/spec/factory"
+} from "@asint/enkore/spec/factory"
 
 export const config: unknown = createConfig({
 	target: {
