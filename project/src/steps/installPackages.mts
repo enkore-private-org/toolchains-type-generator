@@ -4,7 +4,6 @@ import {executeNPMCommand} from "../executeNPMCommand.mts"
 import {copy} from "@aniojs/node-fs"
 // @ts-ignore:next-line
 import runPromisesInParallel from "@anio-js-foundation/run-promises-in-parallel"
-import {convertToInternalPackageName} from "#~src/convertToInternalPackageName.mts"
 
 type AnyFn = (...args: any[]) => any
 
@@ -12,12 +11,12 @@ export async function installPackages(context: Context) {
 	const jobQueue: AnyFn[] = []
 
 	for (const [toolchain, {versions}] of context.toolchains.entries()) {
-		const [_, packageName] = convertToInternalPackageName(toolchain).split("/")
-
 		for (const version of versions) {
+			const packageName = `@asint-types/enkore__target-${toolchain}-toolchain`
+
 			jobQueue.push(async () => {
 				const cwd = path.join(
-					context.workDir, "toolchains", packageName, `v${version}`
+					context.workDir, "toolchains", toolchain, `v${version}`
 				)
 
 				process.stderr.write(`installing ${packageName}@${version}\n`)
@@ -37,7 +36,6 @@ export async function installPackages(context: Context) {
 					path.join(
 						cwd,
 						"node_modules",
-						"@asint-types",
 						packageName,
 						"dist",
 						"default",
@@ -46,7 +44,7 @@ export async function installPackages(context: Context) {
 					path.join(
 						context.workDir,
 						"declarationFiles",
-						`${packageName}_v${version}.d.mts`
+						`${toolchain}_v${version}.d.mts`
 					)
 				)
 

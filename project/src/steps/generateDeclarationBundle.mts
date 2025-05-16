@@ -1,12 +1,15 @@
 import type {Context} from "#~src/Context.mts"
 import {calculateRevisionFromVersion} from "#~src/calculateRevisionFromVersion.mts"
-import {convertToInternalPackageName} from "#~src/convertToInternalPackageName.mts"
 import {writeAtomicFile} from "@aniojs/node-fs"
 import {tsDeclarationBundler} from "@enkore-private/target-js-rollup"
 import path from "node:path"
 
 function codeFriendlyIdentifier(id: string): string {
-	return id.split("-").join("").toUpperCase()
+	return id
+		.split("@").join("")
+		.split("/").join("")
+		.split("-").join("")
+		.toUpperCase()
 }
 
 export async function generateDeclarationBundle(context: Context) {
@@ -15,8 +18,7 @@ export async function generateDeclarationBundle(context: Context) {
 	const toolchainTuples: string[] = []
 
 	for (const [toolchain, {versions}] of context.toolchains.entries()) {
-		const [_, packageName] = convertToInternalPackageName(toolchain).split("/")
-
+		const packageName = `@asint-types/enkore__target-${toolchain}-toolchain`
 		const id = codeFriendlyIdentifier(packageName)
 
 		for (const version of versions) {
@@ -24,7 +26,7 @@ export async function generateDeclarationBundle(context: Context) {
 
 			dtsImportCode += `import {`
 			dtsImportCode += `__ModuleExport as ${id}_R${rev}_RAW`
-			dtsImportCode += `} from "./declarationFiles/${packageName}_v${version}.d.mts"\n`
+			dtsImportCode += `} from "./declarationFiles/${toolchain}_v${version}.d.mts"\n`
 
 			dtsCode += `type ${id}_R${rev} = ${id}_R${rev}_RAW & {\n`
 			dtsCode += `    toolchainID: "${toolchain}"\n`

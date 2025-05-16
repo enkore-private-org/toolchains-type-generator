@@ -9,7 +9,6 @@ import {installPackages} from "#~src/steps/installPackages.mts"
 import {downloadLatestPublishedPackage} from "#~src/steps/downloadLatestPublishedPackage.mts"
 import {generateDeclarationBundle} from "#~src/steps/generateDeclarationBundle.mts"
 import path from "node:path"
-import {convertToInternalPackageName} from "#~src/convertToInternalPackageName.mts"
 import {executeNPMCommand} from "#~src/executeNPMCommand.mts"
 
 async function checkIfNeedsUpdate(context: Context) {
@@ -69,6 +68,8 @@ export async function main() {
 		latestPublishedRevisionContents: new Map()
 	}
 
+	process.stderr.write("WWW: " + workDir + "\n")
+
 	try {
 		process.chdir(workDir)
 
@@ -85,7 +86,7 @@ export async function main() {
 		for (const toolchain of constants.toolchains) {
 			const applicableVersions: string[] = []
 			const versions = await getVersionsOfNPMPackage(
-				context.secretsDir, convertToInternalPackageName(toolchain)
+				context.secretsDir, `@asint/enkore__target-${toolchain}-toolchain`
 			)
 
 			for (const version of versions) {
@@ -130,7 +131,7 @@ export async function main() {
 
 		await writeAtomicFileJSON(
 			path.join(context.workDir, "newPackage", "package.json"), {
-				name: convertToInternalPackageName("@enkore-types/toolchains"),
+				name: "@asint-types/enkore__toolchains",
 				version: `0.0.${newRevision + constants.newRevisionOffset}`,
 				type: "module",
 				exports: {
@@ -159,7 +160,8 @@ export async function main() {
 		}
 	} finally {
 		process.chdir(savedCWD)
-		await remove(workDir)
+		//await remove(workDir)
+		process.stderr.write("WWW: " + workDir + "\n")
 	}
 }
 

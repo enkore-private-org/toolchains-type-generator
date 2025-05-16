@@ -3,6 +3,6 @@ export default {
 	newRevisionOffset: 0,
 	startingRevisionNumber: 23,
 	toolchains: [
-		"@enkore/target-js-toolchain"
+		"js"
 	]
 }
