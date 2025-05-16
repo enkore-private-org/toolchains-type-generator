@@ -2,4 +2,4 @@
 
 ./node_modules/.bin/enkore .
 
-node products/npmPackage/dist/default/index.mjs
+node products/npmPackage_0/dist/default/index.mjs
