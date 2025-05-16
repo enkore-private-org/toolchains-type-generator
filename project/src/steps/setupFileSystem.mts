@@ -1,10 +1,11 @@
 import type {Context} from "#~src/Context.mts"
+import {convertToInternalPackageName} from "#~src/convertToInternalPackageName.mts"
 import {mkdirp, writeAtomicFileJSON} from "@aniojs/node-fs"
 import path from "node:path"
 
 export async function setupFileSystem(context: Context) {
 	for (const [toolchain, {versions}] of context.toolchains.entries()) {
-		const [_, packageName] = toolchain.split("/")
+		const [_, packageName] = convertToInternalPackageName(toolchain).split("/")
 
 		for (const version of versions) {
 			const base = path.join("toolchains", packageName, `v${version}`)
@@ -18,7 +19,7 @@ export async function setupFileSystem(context: Context) {
 					version: "0.0.0",
 					private: true,
 					dependencies: {
-						[`@enkore-types/${packageName}`]: `=${version}`
+						[`@asint-types/${packageName}`]: `=${version}`
 					}
 				},
 				{
