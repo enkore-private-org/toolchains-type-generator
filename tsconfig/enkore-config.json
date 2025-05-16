@@ -4,9 +4,11 @@
     "extends": "./base.json",
     "compilerOptions": {
         "composite": true,
-        "paths": {}
+        "paths": {},
+        "types": ["@types/node"]
     },
-    "files": [
-        "../enkore.config.mts"
+    "include": [
+        "../enkore.config.mts",
+        "../config/enkore/**/*"
     ]
 }
