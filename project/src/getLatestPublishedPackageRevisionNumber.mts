@@ -1,12 +1,11 @@
 import {getVersionsOfNPMPackage} from "./getVersionsOfNPMPackage.mts"
 import {calculateRevisionFromVersion} from "./calculateRevisionFromVersion.mts"
-import {convertToInternalPackageName} from "./convertToInternalPackageName.mts"
 
 export async function getLatestPublishedPackageRevisionNumber(
 	secretsDir: string
 ) {
 	const versions = await getVersionsOfNPMPackage(
-		secretsDir, convertToInternalPackageName("@enkore-types/toolchains")
+		secretsDir, "@asint-types/enkore__toolchains"
 	)
 
 	versions.sort((a, b) => {
