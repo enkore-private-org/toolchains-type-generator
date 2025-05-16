@@ -4,6 +4,7 @@ import {executeNPMCommand} from "../executeNPMCommand.mts"
 import {copy} from "@aniojs/node-fs"
 // @ts-ignore:next-line
 import runPromisesInParallel from "@anio-js-foundation/run-promises-in-parallel"
+import {convertToInternalPackageName} from "#~src/convertToInternalPackageName.mts"
 
 type AnyFn = (...args: any[]) => any
 
@@ -11,7 +12,7 @@ export async function installPackages(context: Context) {
 	const jobQueue: AnyFn[] = []
 
 	for (const [toolchain, {versions}] of context.toolchains.entries()) {
-		const [_, packageName] = toolchain.split("/")
+		const [_, packageName] = convertToInternalPackageName(toolchain).split("/")
 
 		for (const version of versions) {
 			jobQueue.push(async () => {
@@ -36,7 +37,7 @@ export async function installPackages(context: Context) {
 					path.join(
 						cwd,
 						"node_modules",
-						"@enkore-types",
+						"@asint-types",
 						packageName,
 						"dist",
 						"default",
