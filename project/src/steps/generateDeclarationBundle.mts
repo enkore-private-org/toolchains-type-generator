@@ -1,5 +1,6 @@
 import type {Context} from "#~src/Context.mts"
 import {calculateRevisionFromVersion} from "#~src/calculateRevisionFromVersion.mts"
+import {convertToInternalPackageName} from "#~src/convertToInternalPackageName.mts"
 import {writeAtomicFile} from "@aniojs/node-fs"
 import {tsDeclarationBundler} from "@enkore-private/target-js-rollup"
 import path from "node:path"
@@ -14,7 +15,7 @@ export async function generateDeclarationBundle(context: Context) {
 	const toolchainTuples: string[] = []
 
 	for (const [toolchain, {versions}] of context.toolchains.entries()) {
-		const [_, packageName] = toolchain.split("/")
+		const [_, packageName] = convertToInternalPackageName(toolchain).split("/")
 
 		const id = codeFriendlyIdentifier(packageName)
 
