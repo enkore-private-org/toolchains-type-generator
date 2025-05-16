@@ -9,7 +9,7 @@ import {installPackages} from "#~src/steps/installPackages.mts"
 import {downloadLatestPublishedPackage} from "#~src/steps/downloadLatestPublishedPackage.mts"
 import {generateDeclarationBundle} from "#~src/steps/generateDeclarationBundle.mts"
 import path from "node:path"
-import {spawn} from "#~src/spawn.mts"
+import {executeNPMCommand} from "#~src/executeNPMCommand.mts"
 
 async function checkIfNeedsUpdate(context: Context) {
 	let needsUpdate = false
@@ -140,11 +140,14 @@ export async function main() {
 			}, {pretty: true}
 		)
 
-		const {code, stderr} = await spawn("npm", [
-			"publish",
-			"--access",
-			"public"
-		], path.join(workDir, "newPackage"))
+		const {code, stderr} = await executeNPMCommand({
+			secretsDir: context.secretsDir,
+			token: {
+				anioNPMRegistryToken: "tbd",
+				npmRegistryToken: "tbd"
+			},
+			cwd: path.join(workDir, "newPackage")
+		}, ["publish", "--access", "public"])
 
 		if (code !== 0) {
 			throw new Error(`failed to publish package: ${stderr}`)
