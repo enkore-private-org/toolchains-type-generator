@@ -7,6 +7,7 @@ import {convertToInternalPackageName} from "#~src/convertToInternalPackageName.m
 export async function downloadLatestPublishedPackage(
 	context: Context
 ) {
+	const convertedPackageName = convertToInternalPackageName(`@enkore-types/toolchains`)
 	const cwd = path.join(context.workDir, "latestPublishedPackage")
 
 	await writeAtomicFileJSON(path.join(cwd, "package.json"), {
@@ -14,7 +15,7 @@ export async function downloadLatestPublishedPackage(
 		version: "0.0.0",
 		private: true,
 		dependencies: {
-			[convertToInternalPackageName(`@enkore-types/toolchains`)]: `=0.0.${context.latestPublishedRevision}`
+			[convertedPackageName]: `=0.0.${context.latestPublishedRevision}`
 		}
 	}, {pretty: true})
 
@@ -33,8 +34,7 @@ export async function downloadLatestPublishedPackage(
 		path.join(
 			cwd,
 			"node_modules",
-			"@enkore-types",
-			"toolchains",
+			convertedPackageName,
 			"contents.mjs"
 		)
 	)
