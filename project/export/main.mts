@@ -1,4 +1,4 @@
-import {tmpdir, mkdirp, remove, writeAtomicFileJSON, writeAtomicFile} from "@aniojs/node-fs"
+import {resolvePathSync, tmpdir, mkdirp, remove, writeAtomicFileJSON, writeAtomicFile} from "@aniojs/node-fs"
 import type {Context} from "#~src/Context.mts"
 import constants from "#~src/constants.mts"
 import {getLatestPublishedPackageRevisionNumber} from "#~src/getLatestPublishedPackageRevisionNumber.mts"
@@ -49,9 +49,17 @@ export async function main() {
 	const workDir = await tmpdir()
 	const savedCWD = process.cwd()
 
+	// secrets are assumed to be at the cwd
+	const secretsDir = resolvePathSync(
+		path.join(
+			savedCWD, "secrets"
+		), ["regularDir"]
+	)
+
 	const latestPublishedRevision = await getLatestPublishedPackageRevisionNumber()
 
 	const context: Context = {
+		secretsDir,
 		workDir,
 		toolchains: new Map(),
 		latestPublishedRevision,
