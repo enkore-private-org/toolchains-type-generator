@@ -48,8 +48,6 @@ registry="https://registry.npmjs.org/"
 	npmArgs.push(tmpNpmConfigFile)
 
 	try {
-		console.log("executing", npmArgs)
-
 		return await spawn("npm", npmArgs, options.cwd)
 	} finally {
 		removeSync(tmpNpmConfigFile)
