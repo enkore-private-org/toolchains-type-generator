@@ -68,8 +68,6 @@ export async function main() {
 		latestPublishedRevisionContents: new Map()
 	}
 
-	process.stderr.write("WWW: " + workDir + "\n")
-
 	try {
 		process.chdir(workDir)
 
@@ -160,8 +158,7 @@ export async function main() {
 		}
 	} finally {
 		process.chdir(savedCWD)
-		//await remove(workDir)
-		process.stderr.write("WWW: " + workDir + "\n")
+		await remove(workDir)
 	}
 }
 
