@@ -1,6 +1,6 @@
 import type {Context} from "#~src/Context.mts"
 import path from "node:path"
-import {spawn} from "#~src/spawn.mts"
+import {executeNPMCommand} from "../executeNPMCommand.mts"
 import {writeAtomicFileJSON} from "@aniojs/node-fs"
 
 export async function downloadLatestPublishedPackage(
@@ -17,9 +17,10 @@ export async function downloadLatestPublishedPackage(
 		}
 	}, {pretty: true})
 
-	const {code, stderr} = await spawn("npm", [
-		"install"
-	], cwd)
+	const {code, stderr} = await executeNPMCommand({
+		secretsDir: context.secretsDir,
+		cwd
+	}, ["install"])
 
 	if (code !== 0) {
 		throw new Error(
