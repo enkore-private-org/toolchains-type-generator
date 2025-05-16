@@ -1,6 +1,6 @@
 import type {Context} from "#~src/Context.mts"
 import path from "node:path"
-import {spawn} from "#~src/spawn.mts"
+import {executeNPMCommand} from "../executeNPMCommand.mts"
 import {copy} from "@aniojs/node-fs"
 // @ts-ignore:next-line
 import runPromisesInParallel from "@anio-js-foundation/run-promises-in-parallel"
@@ -21,9 +21,10 @@ export async function installPackages(context: Context) {
 
 				process.stderr.write(`installing ${packageName}@${version}\n`)
 
-				const {code, stderr} = await spawn("npm", [
-					"install"
-				], cwd)
+				const {code, stderr} = await executeNPMCommand({
+					secretsDir: context.secretsDir,
+					cwd
+				}, ["install"])
 
 				if (code !== 0) {
 					throw new Error(
