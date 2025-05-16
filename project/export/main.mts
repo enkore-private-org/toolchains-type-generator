@@ -1,4 +1,4 @@
-import {resolvePathSync, tmpdir, mkdirp, remove, writeAtomicFileJSON, writeAtomicFile} from "@aniojs/node-fs"
+import {resolvePathSync, readFileStringSync, tmpdir, mkdirp, remove, writeAtomicFileJSON, writeAtomicFile} from "@aniojs/node-fs"
 import type {Context} from "#~src/Context.mts"
 import constants from "#~src/constants.mts"
 import {getLatestPublishedPackageRevisionNumber} from "#~src/getLatestPublishedPackageRevisionNumber.mts"
@@ -147,8 +147,10 @@ export async function main() {
 		const {code, stderr} = await executeNPMCommand({
 			secretsDir: context.secretsDir,
 			token: {
-				anioNPMRegistryToken: "tbd",
-				npmRegistryToken: "tbd"
+				anioNPMRegistryToken: readFileStringSync(
+					path.join(secretsDir, "anio_npm_auth_token")
+				),
+				npmRegistryToken: ""
 			},
 			cwd: path.join(workDir, "newPackage")
 		}, ["publish", "--access", "public"])
