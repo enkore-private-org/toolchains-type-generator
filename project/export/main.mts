@@ -9,6 +9,7 @@ import {installPackages} from "#~src/steps/installPackages.mts"
 import {downloadLatestPublishedPackage} from "#~src/steps/downloadLatestPublishedPackage.mts"
 import {generateDeclarationBundle} from "#~src/steps/generateDeclarationBundle.mts"
 import path from "node:path"
+import {convertToInternalPackageName} from "#~src/convertToInternalPackageName.mts"
 import {executeNPMCommand} from "#~src/executeNPMCommand.mts"
 
 async function checkIfNeedsUpdate(context: Context) {
@@ -83,7 +84,9 @@ export async function main() {
 
 		for (const toolchain of constants.toolchains) {
 			const applicableVersions: string[] = []
-			const versions = await getVersionsOfNPMPackage(context.secretsDir, toolchain)
+			const versions = await getVersionsOfNPMPackage(
+				context.secretsDir, convertToInternalPackageName(toolchain)
+			)
 
 			for (const version of versions) {
 				const asRevision = calculateRevisionFromVersion(version)
@@ -127,7 +130,7 @@ export async function main() {
 
 		await writeAtomicFileJSON(
 			path.join(context.workDir, "newPackage", "package.json"), {
-				name: "@enkore-types/toolchains",
+				name: convertToInternalPackageName("@enkore-types/toolchains"),
 				version: `0.0.${newRevision + constants.newRevisionOffset}`,
 				type: "module",
 				exports: {

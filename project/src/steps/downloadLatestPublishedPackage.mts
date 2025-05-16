@@ -2,6 +2,7 @@ import type {Context} from "#~src/Context.mts"
 import path from "node:path"
 import {executeNPMCommand} from "../executeNPMCommand.mts"
 import {writeAtomicFileJSON} from "@aniojs/node-fs"
+import {convertToInternalPackageName} from "#~src/convertToInternalPackageName.mts"
 
 export async function downloadLatestPublishedPackage(
 	context: Context
@@ -13,7 +14,7 @@ export async function downloadLatestPublishedPackage(
 		version: "0.0.0",
 		private: true,
 		dependencies: {
-			[`@enkore-types/toolchains`]: `=0.0.${context.latestPublishedRevision}`
+			[convertToInternalPackageName(`@enkore-types/toolchains`)]: `=0.0.${context.latestPublishedRevision}`
 		}
 	}, {pretty: true})
 
